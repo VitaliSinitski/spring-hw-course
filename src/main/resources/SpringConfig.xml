@@ -11,8 +11,10 @@
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd
-        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        https://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="english" p:name="english" class="org.vitali.Subject"/>
     <bean id="math" p:name="math" class="org.vitali.Subject"/>
@@ -102,12 +104,11 @@
         <property name="studentsCondition" value="#{allStudentsList.?[averageMark lt 5]}"/>
     </bean>
 
-    <bean name="courseCompMax" class="org.vitali.Course">
-    <property name="studentsCondition" value="#{studentsList.maxMarkStudent}"/>
+    <bean id="courseMax" class="org.vitali.Course"
+          p:name="courseMax" p:studentsCondition="#{T(java.util.Collections).max(allStudentsList)}" scope="prototype">
     </bean>
 
-    <bean name="courseCompMin" class="org.vitali.Course">
-        <property name="studentsCondition" value="#{studentsList.minMarkStudent}"/>
+    <bean id="courseMin" class="org.vitali.Course"
+          p:name="courseMin" p:studentsCondition="#{T(java.util.Collections).min(allStudentsList)}" scope="prototype">
     </bean>
-
 </beans>
