@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="english" p:name="english" class="org.vitali.Subject"/>
+    <bean id="math" p:name="math" class="org.vitali.Subject"/>
+    <bean id="literature" p:name="literature" class="org.vitali.Subject"/>
+    <bean id="history" p:name="history" class="org.vitali.Subject"/>
+    <bean id="science" p:name="science" class="org.vitali.Subject"/>
+    <bean id="chemistry" p:name="chemistry" class="org.vitali.Subject"/>
+    <bean id="physicalCulture" p:name="physicalCulture" class="org.vitali.Subject"/>
+
+    <bean id="mainCourse" class="org.vitali.Course" p:name="MainCourse" p:students-ref="studentsList"/>
+
+
+    <util:list id="allStudentsList">
+        <bean class="org.vitali.Student" p:name="Jack" p:surname="Black" p:course-ref="mainCourse" p:averageMark="2">
+            <property name="subjects">
+                <list>
+                    <ref bean="chemistry"/>
+                    <ref bean="history"/>
+                    <ref bean="math"/>
+                </list>
+            </property>
+        </bean>
+        <bean class="org.vitali.Student" p:name="Mark" p:surname="Jonson" p:course-ref="mainCourse" p:averageMark="7">
+            <property name="subjects">
+                <list>
+                    <ref bean="english"/>
+                    <ref bean="physicalCulture"/>
+                    <ref bean="history"/>
+                    <ref bean="literature"/>
+                </list>
+            </property>
+        </bean>
+        <bean class="org.vitali.Student" p:name="Ivan" p:surname="Ivanov" p:course-ref="mainCourse" p:averageMark="3">
+            <property name="subjects">
+                <list>
+                    <ref bean="science"/>
+                    <ref bean="chemistry"/>
+                    <ref bean="literature"/>
+                </list>
+            </property>
+        </bean>
+        <bean class="org.vitali.Student" p:name="Anna" p:surname="Karenina" p:course-ref="mainCourse" p:averageMark="9">
+            <property name="subjects">
+                <list>
+                    <ref bean="science"/>
+                    <ref bean="english"/>
+                    <ref bean="math"/>
+                    <ref bean="chemistry"/>
+                    <ref bean="literature"/>
+                </list>
+            </property>
+        </bean>
+        <bean class="org.vitali.Student" p:name="Walter" p:surname="White" p:course-ref="mainCourse" p:averageMark="5">
+            <property name="subjects">
+                <list>
+                    <ref bean="chemistry"/>
+                    <ref bean="science"/>
+                    <ref bean="english"/>
+                    <ref bean="math"/>
+                    <ref bean="physicalCulture"/>
+                </list>
+            </property>
+        </bean>
+        <bean class="org.vitali.Student" p:name="Jessica" p:surname="Alba" p:course-ref="mainCourse" p:averageMark="4">
+            <property name="subjects">
+                <list>
+                    <ref bean="english"/>
+                    <ref bean="physicalCulture"/>
+                </list>
+            </property>
+        </bean>
+    </util:list>
+
+    <bean name="allStudents" class="org.vitali.Course">
+        <property name="students" value="#{allStudentsList}"/>
+    </bean>
+
+    <bean name="studentsList" class="org.vitali.Student">
+        <property name="students" value="#{allStudentsList}"/>
+    </bean>
+
+    <bean name="courseCompLess5" class="org.vitali.Course">
+        <property name="studentsCondition" value="#{allStudentsList.?[averageMark gt 5]}"/>
+    </bean>
+
+    <bean name="courseComp5" class="org.vitali.Course">
+        <property name="studentsCondition" value="#{allStudentsList.?[averageMark lt 5]}"/>
+    </bean>
+
+    <bean name="courseCompMax" class="org.vitali.Course">
+    <property name="studentsCondition" value="#{studentsList.maxMarkStudent}"/>
+    </bean>
+
+    <bean name="courseCompMin" class="org.vitali.Course">
+        <property name="studentsCondition" value="#{studentsList.minMarkStudent}"/>
+    </bean>
+
+</beans>
